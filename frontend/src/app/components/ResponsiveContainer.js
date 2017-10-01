@@ -1,13 +1,15 @@
-import styled from "styled-components";
+import React from "react";
 
-export default styled.div`
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-  /* responsive grid */
-  ${props =>
-    Object.keys(props.theme.grid.sizes).reduce((m, size) => {
-      const px = props.theme.grid.sizes[size] + "px";
-      return m + `@media (min-width: ${px}) {max-width: ${px};}`;
-    }, "")};
-`;
+export default class extends React.Component {
+  render() {
+    const { className = "", children, fluid, ...restProps } = this.props;
+    return (
+      <div
+        {...restProps}
+        className={`${className} ${fluid ? "container-fluid" : "container"}`}
+      >
+        {children}
+      </div>
+    );
+  }
+}

@@ -7,7 +7,7 @@ import { toCart, toProductList } from "./routes";
 
 export const NAVBAR_HEIGHT = 60;
 
-const NavBarWrapper = styled.div`
+const NavBarContainer = styled.div`
   background-color: ${props => props.theme.colors.light};
   min-height: ${NAVBAR_HEIGHT}px;
   display: flex;
@@ -19,7 +19,7 @@ const NavBarWrapper = styled.div`
   left: 0;
 `;
 
-const ResponsiveContainerExtended = ResponsiveContainer.extend`
+const NavContainer = styled.div`
   display: flex;
   justify-content: space-between;
 `;
@@ -31,23 +31,29 @@ class NavBar extends React.Component {
       right = [];
     if (location.pathname != toProductList()) {
       left.push(
-        <Link key="to-product-list" to={toProductList()}>
+        <Link
+          key="to-product-list"
+          to={toProductList()}
+          className="btn btn-outline-secondary"
+        >
           All Products
         </Link>
       );
     }
     right.push(
-      <Link key="to-cart" to={toCart()}>
+      <Link key="to-cart" to={toCart()} className="btn btn-primary">
         Cart
       </Link>
     );
     return (
-      <NavBarWrapper>
-        <ResponsiveContainerExtended>
-          <InlineList style={{ margin: 0 }}>{left}</InlineList>
-          <InlineList style={{ margin: 0 }}>{right}</InlineList>
-        </ResponsiveContainerExtended>
-      </NavBarWrapper>
+      <NavBarContainer>
+        <ResponsiveContainer>
+          <NavContainer>
+            <InlineList style={{ margin: 0 }}>{left}</InlineList>
+            <InlineList style={{ margin: 0 }}>{right}</InlineList>
+          </NavContainer>
+        </ResponsiveContainer>
+      </NavBarContainer>
     );
   }
 }

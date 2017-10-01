@@ -9,14 +9,7 @@ import Cart from "./cart/Cart";
 import ResponsiveContainer from "./components/ResponsiveContainer";
 import * as routes from "./routes";
 
-const PORTAL_MIN_WIDTH = 768; // small devices, landscape
-const USER_COLUMN_WIDTH = 280;
-
-const Style = styled.div`
-  background-color: white;
-  display: flex;
-  justify-content: center;
-`;
+const Container = styled.div`background-color: white;`;
 
 export default class App extends React.Component {
   render() {
@@ -24,7 +17,7 @@ export default class App extends React.Component {
     return (
       <Router>
         <ThemeProvider theme={theme}>
-          <Style>
+          <Container>
             <NavBar {...this.props} />
             <ResponsiveContainer style={{ marginTop: NAVBAR_HEIGHT }}>
               <Route
@@ -39,7 +32,7 @@ export default class App extends React.Component {
               />
               <Route exact path={routes.toCart()} component={Cart} />
             </ResponsiveContainer>
-          </Style>
+          </Container>
         </ThemeProvider>
       </Router>
     );

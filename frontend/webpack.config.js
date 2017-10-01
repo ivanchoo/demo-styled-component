@@ -25,7 +25,6 @@ module.exports = {
   entry: {
     index: entrypoint([
       "babel-polyfill",
-      r(SRC_DIR, "styles", "reboot.css"),
       r(SRC_DIR, "index.js")
     ])
   },
