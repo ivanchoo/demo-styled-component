@@ -25,6 +25,7 @@ module.exports = {
   entry: {
     index: entrypoint([
       "babel-polyfill",
+      "isomorphic-fetch",
       r(SRC_DIR, "index.js")
     ])
   },

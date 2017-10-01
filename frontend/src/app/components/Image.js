@@ -1,34 +1,27 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const CDN = {
-  thumb:
-    "https://s3-ap-southeast-1.amazonaws.com/media.redmart.com/newmedia/150x",
-  standard:
-    "https://s3-ap-southeast-1.amazonaws.com/media.redmart.com/newmedia/460x"
-};
+const SRC_PREFIX = "/assets";
+
 export default class extends React.Component {
   static propTypes = {
-    data: PropTypes.shape({
-      w: PropTypes.number,
-      h: PropTypes.number,
-      name: PropTypes.string
-    })
+    src: PropTypes.string,
+    fluid: PropTypes.bool,
+    thumbnail: PropTypes.bool
   };
   render() {
     const {
       className = "",
-      data,
+      src,
       fluid = true,
-      thumb = false,
+      thumbnail = false,
       ...restProps
     } = this.props;
-    if (data && data.name) {
-      const src = `${thumb ? CDN.thumb : CDN.standard}${data.name}`;
+    if (src) {
       return (
         <img
           {...restProps}
-          src={src}
+          src={`${SRC_PREFIX}/${src}`}
           className={`${className} ${fluid ? "img-fluid" : ""}`}
         />
       );

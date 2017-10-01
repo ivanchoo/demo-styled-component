@@ -3,12 +3,10 @@ import ReactDOM from "react-dom";
 import App from "./app/App";
 import { Provider } from "mobx-react";
 import Store from "./app/store";
-import data from "./data.json";
 
 const APPLICATION_ID = "application";
 
 const store = new Store();
-store.initialize(data);
 
 const render = Component => {
   ReactDOM.render(

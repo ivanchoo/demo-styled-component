@@ -8,17 +8,24 @@ import ProductDetail from "./products/ProductDetail";
 import Cart from "./cart/Cart";
 import ResponsiveContainer from "./components/ResponsiveContainer";
 import * as routes from "./routes";
+import { inject } from "mobx-react";
 
 const Container = styled.div`background-color: white;`;
 
+@inject(["store"])
 export default class App extends React.Component {
-  render() {
+  componentWillMount() {
     const { store } = this.props;
+    if (!store.asyncStatus.initialized) {
+      store.fetchData();
+    }
+  }
+  render() {
     return (
       <Router>
         <ThemeProvider theme={theme}>
           <Container>
-            <NavBar {...this.props} />
+            <NavBar />
             <ResponsiveContainer style={{ marginTop: NAVBAR_HEIGHT }}>
               <Route
                 exact

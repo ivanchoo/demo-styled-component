@@ -4,6 +4,7 @@ import { withRouter, Link } from "react-router-dom";
 import InlineList from "./components/InlineList";
 import ResponsiveContainer from "./components/ResponsiveContainer";
 import { toCart, toProductList } from "./routes";
+import { inject } from "mobx-react";
 
 export const NAVBAR_HEIGHT = 60;
 
@@ -24,6 +25,7 @@ const NavContainer = styled.div`
   justify-content: space-between;
 `;
 
+@inject(["store"])
 class NavBar extends React.Component {
   render() {
     const { store, location } = this.props;

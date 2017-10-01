@@ -16,7 +16,7 @@ export default class extends React.Component {
     const { store, ...restProps } = this.props;
     return (
       <Container {...restProps}>
-        {store.products.map(product => {
+        {store.filteredProducts.map(product => {
           return (
             <ProductItem
               key={product.id}

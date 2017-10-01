@@ -19,27 +19,28 @@ const Container = styled.div`
 `;
 
 export default class extends React.Component {
+  static propTypes = {
+    product: PropTypes.object.isRequired,
+    store: PropTypes.object.isRequired
+  }
   render() {
     const { product, store, ...restProps } = this.props;
-    const { price, promo_price } = product["pricing"];
+    console.log(product)
     return (
       <Container {...this.props}>
         <div style={{ flex: 1 }}>
-          <Image data={product.img} fluid />
+          <Image src={product.image} fluid />
           <p className="text-secondary">
-            {product.title}
+            {product.name}
             <br />
-            <strong className="text-danger">${price.toFixed(2)}</strong>
-            {promo_price ? (
-              <span className="text-secondary"> ${promo_price.toFixed(2)}</span>
-            ) : null}
+            <strong className="text-danger">${product.price.toFixed(2)}</strong>
           </p>
         </div>
         <Link
           className="btn btn-block btn-primary"
           to={toProductDetail(product.id)}
         >
-          View Details
+          Add to Card
         </Link>
       </Container>
     );
