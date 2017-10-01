@@ -107,7 +107,7 @@ class Product {
   price = 0;
   name = "";
   brand = 0;
-  description = null;
+  desc = null;
   measurement = null;
   image = null;
 }

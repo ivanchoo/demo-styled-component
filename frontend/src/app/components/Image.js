@@ -7,14 +7,12 @@ export default class extends React.Component {
   static propTypes = {
     src: PropTypes.string,
     fluid: PropTypes.bool,
-    thumbnail: PropTypes.bool
   };
   render() {
     const {
       className = "",
       src,
       fluid = true,
-      thumbnail = false,
       ...restProps
     } = this.props;
     if (src) {

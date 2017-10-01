@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Image from "../components/Image";
+import ProductCartButton from "./ProductCartButton";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import { toProductDetail } from "../routes";
@@ -45,7 +46,7 @@ export default class extends React.Component {
     const isInCart = store.isInCart(product);
     return (
       <Container {...this.props}>
-        <StyledLink to={toProductDetail()}>
+        <StyledLink to={toProductDetail(product.id)}>
           <Image src={product.image} fluid />
           <p className="text-secondary">
             {product.name}
@@ -53,13 +54,7 @@ export default class extends React.Component {
             <strong className="text-danger">${product.price.toFixed(2)}</strong>
           </p>
         </StyledLink>
-        <button
-          className={`btn btn-block ${isInCart ? "btn-danger" : "btn-primary"}`}
-          type="button"
-          onClick={this.onClick}
-        >
-          {isInCart ? "Remove from Cart" : "Add to Cart"}
-        </button>
+        <ProductCartButton store={store} product={product} />
       </Container>
     );
   }

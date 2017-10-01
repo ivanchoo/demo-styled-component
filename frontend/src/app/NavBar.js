@@ -22,7 +22,8 @@ const NavBarContainer = styled.div`
 
 const NavContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-end;
 `;
 
 @inject(["store"])
@@ -30,21 +31,20 @@ const NavContainer = styled.div`
 class NavBar extends React.Component {
   render() {
     const { store, location } = this.props;
-    const left = [],
-      right = [];
+    const children = [];
     const numCartItems = store.cart.length;
     if (location.pathname != toProductList()) {
-      left.push(
+      children.push(
         <Link
           key="to-product-list"
           to={toProductList()}
           className="btn btn-outline-secondary"
         >
-          All Products
+          Browse
         </Link>
       );
     }
-    right.push(
+    children.push(
       <Link
         key="to-cart"
         to={toCart()}
@@ -57,8 +57,7 @@ class NavBar extends React.Component {
       <NavBarContainer>
         <ResponsiveContainer>
           <NavContainer>
-            <InlineList style={{ margin: 0 }}>{left}</InlineList>
-            <InlineList style={{ margin: 0 }}>{right}</InlineList>
+            <InlineList style={{ margin: 0 }}>{children}</InlineList>
           </NavContainer>
         </ResponsiveContainer>
       </NavBarContainer>

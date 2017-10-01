@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { inject, observer } from "mobx-react";
 import ProductItem from "./ProductItem";
 import FilterList from "./FilterList";
+import { inject, observer } from "mobx-react";
 
 const Container = styled.div`display: flex;`;
 

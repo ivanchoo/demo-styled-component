@@ -1,21 +1,72 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { toProductDetail } from "../routes";
+import Image from "../components/Image";
+import ProductCartButton from "./ProductCartButton";
+import { inject, observer } from "mobx-react";
 
 const Container = styled.div`
   display: flex;
-  width: 200px;
-  border: 1px solid ${props => props.theme.colors.light};
+  flex-direction: column;
+  padding: 12px;
 `;
 
+const DetailRowContainer = styled.div`
+  display: flex;
+  margin-top: 12px;
+`;
+
+const DetailImageColumn = styled.div`
+  flex: 1;
+  text-align: center;
+`;
+
+const DetailInfoColumn = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 40%;
+`;
+
+const NotFoundContainer = styled.div`
+  flex: 1;
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+@inject(["store"])
+@observer
 export default class extends React.Component {
   render() {
     const { store, match, ...restProps } = this.props;
+    let product;
+    if (match.isExact && match.params.id) {
+      const productId = Number(match.params.id);
+      product = store.products.find(product => product.id == productId);
+    }
+    if (!product) {
+      return (
+        <NotFoundContainer>
+          <p className="text-secondary">Not Found</p>
+        </NotFoundContainer>
+      );
+    }
     return (
       <Container {...this.props}>
-        {match.isExact ? match.params.id : "Not found"}
+        <h3>{product.name}</h3>
+        <DetailRowContainer>
+          <DetailImageColumn>
+            <Image src={product.image} fluid style={{height: '100%'}} />
+          </DetailImageColumn>
+          <DetailInfoColumn>
+            <p className="h2">{product.measurement}</p>
+            <h2>${product.price.toFixed(2)}</h2>
+            <p>{product.desc}</p>
+            <ProductCartButton store={store} product={product} />
+          </DetailInfoColumn>
+        </DetailRowContainer>
       </Container>
     );
   }
