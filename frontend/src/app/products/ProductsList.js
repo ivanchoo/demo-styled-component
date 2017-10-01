@@ -19,7 +19,7 @@ export default class extends React.Component {
         {store.products.map(product => {
           return (
             <ProductItem
-              key={product.sku}
+              key={product.id}
               store={store}
               product={product}
               style={{ marginTop: 12 }}

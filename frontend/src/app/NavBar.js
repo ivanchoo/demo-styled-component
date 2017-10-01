@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { withRouter, Link } from "react-router-dom";
 import Container from "./components/Container";
+import { toCart, toProductList } from "./routes";
 
 export const NAVBAR_HEIGHT = 60;
 
@@ -21,15 +23,21 @@ const ContainerStyle = Container.extend`
   justify-content: flex-end;
 `;
 
-export default class extends React.Component {
+class NavBar extends React.Component {
   render() {
-    const { store } = this.props;
+    const { store, location } = this.props;
+    const toProductListLink =
+      location.pathname == toProductList() ? null : (
+        <Link to={toProductList()}>Browser</Link>
+      );
     return (
       <NarBarStyle>
         <ContainerStyle>
-          <button>Cart</button>
+          {toProductListLink} <Link to={toCart()}>Cart</Link>
         </ContainerStyle>
       </NarBarStyle>
     );
   }
 }
+
+export default withRouter(NavBar);

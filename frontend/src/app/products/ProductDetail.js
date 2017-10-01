@@ -12,11 +12,10 @@ const Style = styled.div`
 
 export default class extends React.Component {
   render() {
-    const { product, store, ...restProps } = this.props;
+    const { store, match, ...restProps } = this.props;
     return (
       <Style {...this.props}>
-        {product.title}
-        <Link to={toProductDetail(product.id)}>View Details</Link>
+        {match.isExact ? match.params.id : "Not found"}
       </Style>
     );
   }
