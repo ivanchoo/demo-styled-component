@@ -18,16 +18,37 @@ export default class Store {
 
   @observable filters = [];
 
+  @observable cart = [];
+
+  /**
+   * Returns true if one or more filters has selected predicates.
+   * @type {Boolean}
+   */
+  @computed
+  get hasSelectedFilters() {
+    return !!this.filters.find(filter => filter.hasSelection);
+  }
+
+  /**
+   * Returns a list of products that satisfy all filters.
+   *
+   * This method is memoized and computed only when observable changes.
+   * @type {[Product]}
+   */
   @computed
   get filteredProducts() {
-    // This method is memoized and computed only when observable values change
-    if (!this.filters.find(filter => filter.isSelected)) {
+    if (!this.hasSelectedFilters) {
+      // No filters has selection, just return all products
       return this.products;
     }
     return this.products.filter(product => {
-      const b = !!this.filters.find(filter => filter.includes(product));
-      console.log(b, product.name);
-      return false;
+      const include = this.filters.reduce((include, filter) => {
+        // filter conditions are 'AND', if product has already been
+        // filtered (excluded), we can skip further checks
+        if (!include || !filter.hasSelection) return include;
+        return filter.includes(product);
+      }, true);
+      return include;
     });
   }
 
@@ -46,6 +67,26 @@ export default class Store {
         });
       });
     return this.asyncStatus.withPromise(promise);
+  }
+
+  @action.bound
+  addToCart(product) {
+    const index = this.cart.indexOf(product);
+    if (index < 0) {
+      this.cart.push(product);
+    }
+  }
+
+  @action.bound
+  removeFromCart(product) {
+    const index = this.cart.indexOf(product);
+    if (index >= 0) {
+      this.cart.splice(index, 1);
+    }
+  }
+
+  isInCart(product) {
+    return this.cart.indexOf(product) >= 0;
   }
 }
 
@@ -73,14 +114,22 @@ class Product {
 
 class Filter {
   static create = ({ name, values }) => {
+    const filter = new Filter();
     switch (name) {
       case "brand":
-        return new BrandFilter(values);
+        filter.title = "Brand";
+        filter.options = values.map(value => new BrandPredicate(value));
+        break;
       case "price":
-        return new PriceFilter(values);
+        filter.title = "Price";
+        filter.options = values.map(
+          value => new PriceRangePredicate(...value.split("-").map(Number))
+        );
+        break;
       default:
         throw new Error(`Unsupported filter ${name}`);
     }
+    return filter;
   };
 
   @observable selected = [];
@@ -89,79 +138,96 @@ class Filter {
 
   @observable title = "";
 
+  /**
+   * Returns true if the filter has one or more selected predicates
+   * @type {Boolean}
+   */
   @computed
-  get isSelected() {
+  get hasSelection() {
     return !!this.selected.length;
   }
 
-  labelFor(option) {
-    return option;
-  }
-
+  /**
+   * Returns true if the filter has no selected predicate, or if the `product`
+   * satisfy **any** selected predicates.
+   * @param  {Product} product
+   * @return {Boolean}
+   */
   includes(product) {
-    // override me
-    return false;
+    if (!this.hasSelection) {
+      return true;
+    }
+    return !!this.selected.find(option => option.includes(product));
   }
 
   @action.bound
   select(option) {
-    const index = this.options.indexOf(option);
-    if (option < 0) {
+    const index = this.selected.indexOf(option);
+    if (index < 0) {
       this.selected.push(option);
     }
   }
 
   @action.bound
   unselect(option) {
-    const index = this.options.indexOf(option);
-    if (option >= 0) {
+    const index = this.selected.indexOf(option);
+    if (index >= 0) {
       this.selected.splice(index, 1);
     }
   }
-}
 
-class BrandFilter extends Filter {
-  constructor(options) {
-    super();
-    this.title = "Brands";
-    this.options = options;
+  @action.bound
+  toggle(option) {
+    this.isSelected(option) ? this.unselect(option) : this.select(option);
   }
 
-  includes(product) {
-    invariant(product, "Expects product");
-    const value = product.brand;
-    invariant(!!value, "Expects product.brand");
-    return !!this.selected.find(option => option == value);
-  }
-
-  labelFor(option) {
-    return option;
+  isSelected(option) {
+    return this.selected.indexOf(option) >= 0;
   }
 }
 
-class PriceFilter extends Filter {
-  constructor(options) {
-    super();
-    this.title = "Price";
-    this.options = options.map(value => {
-      const range = value.split("-").map(Number);
-      range.forEach(value => {
-        invariant(isNumber(value), `Expects number in range, but got ${value}`);
-      });
-      return range;
-    });
-  }
+/**
+ * Simple predicate interface.
+ * @type {String}
+ */
+class Predicate {
+  label = "";
 
-  labelFor(option) {
-    return option.map(value => `$${value.toFixed(2)}`).join(" - ");
+  includes(product) {
+    return false;
+  }
+}
+
+class BrandPredicate extends Predicate {
+  brand = null;
+
+  constructor(brand, label) {
+    super();
+    this.brand = brand;
+    this.label = label || brand;
   }
 
   includes(product) {
-    invariant(product, "Expects product");
+    return this.brand == product.brand;
+  }
+}
+
+class PriceRangePredicate extends Predicate {
+  from = 0;
+  to = 0;
+
+  constructor(from, to, label) {
+    super();
+    invariant(isNumber(from), `Expects number but got ${from}`);
+    invariant(isNumber(to), `Expects number but got ${to}`);
+    this.from = from;
+    this.to = to;
+    this.label = label || `$${from.toFixed(2)} - $${to.toFixed(2)}`;
+  }
+
+  includes(product) {
     const value = product.price;
-    return !!this.selected.find(
-      option => option[0] >= value && option[1] <= value
-    );
+    return value >= this.from && value <= this.to;
   }
 }
 

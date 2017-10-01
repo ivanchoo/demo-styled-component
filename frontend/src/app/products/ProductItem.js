@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Image from "../components/Image";
+import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import { toProductDetail } from "../routes";
 
@@ -18,29 +19,47 @@ const Container = styled.div`
   }
 `;
 
+const StyledLink = styled(Link)`
+  display: block;
+  flex: 1;
+  text-decoration: none !important;
+`;
+
+@observer
 export default class extends React.Component {
   static propTypes = {
     product: PropTypes.object.isRequired,
     store: PropTypes.object.isRequired
-  }
+  };
+  onClick = evt => {
+    evt.preventDefault();
+    const { store, product } = this.props;
+    if (store.isInCart(product)) {
+      store.removeFromCart(product);
+    } else {
+      store.addToCart(product);
+    }
+  };
   render() {
     const { product, store, ...restProps } = this.props;
+    const isInCart = store.isInCart(product);
     return (
       <Container {...this.props}>
-        <div style={{ flex: 1 }}>
+        <StyledLink to={toProductDetail()}>
           <Image src={product.image} fluid />
           <p className="text-secondary">
             {product.name}
             <br />
             <strong className="text-danger">${product.price.toFixed(2)}</strong>
           </p>
-        </div>
-        <Link
-          className="btn btn-block btn-primary"
-          to={toProductDetail(product.id)}
+        </StyledLink>
+        <button
+          className={`btn btn-block ${isInCart ? "btn-danger" : "btn-primary"}`}
+          type="button"
+          onClick={this.onClick}
         >
-          Add to Card
-        </Link>
+          {isInCart ? "Remove from Cart" : "Add to Cart"}
+        </button>
       </Container>
     );
   }

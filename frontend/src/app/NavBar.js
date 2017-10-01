@@ -4,7 +4,7 @@ import { withRouter, Link } from "react-router-dom";
 import InlineList from "./components/InlineList";
 import ResponsiveContainer from "./components/ResponsiveContainer";
 import { toCart, toProductList } from "./routes";
-import { inject } from "mobx-react";
+import { inject, observer } from "mobx-react";
 
 export const NAVBAR_HEIGHT = 60;
 
@@ -26,11 +26,13 @@ const NavContainer = styled.div`
 `;
 
 @inject(["store"])
+@observer
 class NavBar extends React.Component {
   render() {
     const { store, location } = this.props;
     const left = [],
       right = [];
+    const numCartItems = store.cart.length;
     if (location.pathname != toProductList()) {
       left.push(
         <Link
@@ -43,8 +45,12 @@ class NavBar extends React.Component {
       );
     }
     right.push(
-      <Link key="to-cart" to={toCart()} className="btn btn-primary">
-        Cart
+      <Link
+        key="to-cart"
+        to={toCart()}
+        className={`btn ${numCartItems ? "btn-danger" : "btn-primary"}`}
+      >
+        {numCartItems ? `${numCartItems} Items` : "Empty Cart"}
       </Link>
     );
     return (
