@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Image from "../components/Image";
+import CenterBox from "../components/CenterBox";
 import ProductCartButton from "./ProductCartButton";
 import { inject, observer } from "mobx-react";
 
@@ -18,7 +19,10 @@ const DetailRowContainer = styled.div`
 
 const DetailImageColumn = styled.div`
   flex: 1;
-  text-align: center;
+  background-image: url("${props => props.src}");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
 `;
 
 const DetailInfoColumn = styled.div`
@@ -28,13 +32,7 @@ const DetailInfoColumn = styled.div`
   max-width: 40%;
 `;
 
-const NotFoundContainer = styled.div`
-  flex: 1;
-  min-height: 300px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+
 
 @inject(["store"])
 @observer
@@ -48,18 +46,16 @@ export default class extends React.Component {
     }
     if (!product) {
       return (
-        <NotFoundContainer>
+        <CenterBox>
           <p className="text-secondary">Not Found</p>
-        </NotFoundContainer>
+        </CenterBox>
       );
     }
     return (
       <Container {...this.props}>
         <h3>{product.name}</h3>
         <DetailRowContainer>
-          <DetailImageColumn>
-            <Image src={product.image} fluid style={{height: '100%'}} />
-          </DetailImageColumn>
+          <DetailImageColumn src={product.imageUrl} />
           <DetailInfoColumn>
             <p className="h2">{product.measurement}</p>
             <h2>${product.price.toFixed(2)}</h2>

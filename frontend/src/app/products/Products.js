@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import ProductItem from "./ProductItem";
+import ProductList from "./ProductList";
+import CenterBox from "../components/CenterBox";
 import FilterList from "./FilterList";
 import { inject, observer } from "mobx-react";
 
@@ -13,42 +14,17 @@ const FilterContainer = styled.div`
   padding: 12px;
 `;
 
-const ProductsContainer = styled.div`
-  flex: 1;
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-const EmptyContainer = styled.div`
-  flex: 1;
-  min-height: 300px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 @inject(["store"])
 @observer
 export default class extends React.Component {
   render() {
     const { store, ...restProps } = this.props;
     const children = store.filteredProducts.length ? (
-      <ProductsContainer>
-        {store.filteredProducts.map(product => {
-          return (
-            <ProductItem
-              key={product.id}
-              store={store}
-              product={product}
-              style={{ marginTop: 12, width: 200 }}
-            />
-          );
-        })}
-      </ProductsContainer>
+      <ProductList store={store} products={store.filteredProducts} />
     ) : (
-      <EmptyContainer>
+      <CenterBox>
         <p className="text-secondary">No Results</p>
-      </EmptyContainer>
+      </CenterBox>
     );
     return (
       <Container {...restProps}>

@@ -3,7 +3,7 @@ import styled, { ThemeProvider } from "styled-components";
 import theme from "../styles/theme";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import NavBar, { NAVBAR_HEIGHT } from "./NavBar";
-import ProductsList from "./products/ProductsList";
+import Products from "./products/Products";
 import ProductDetail from "./products/ProductDetail";
 import Cart from "./cart/Cart";
 import ResponsiveContainer from "./components/ResponsiveContainer";
@@ -30,7 +30,7 @@ export default class App extends React.Component {
               <Route
                 exact
                 path={routes.toProductList()}
-                component={ProductsList}
+                component={Products}
               />
               <Route
                 exact

@@ -1,7 +1,8 @@
 import { observable, action, useStrict, computed, runInAction } from "mobx";
 import invariant from "invariant";
 
-const dataURL = "/data/products.json";
+const DATA_URI = "/data/products.json";
+const ASSET_BASE_URI = "/assets";
 
 const isNumber = maybe => {
   return typeof maybe == "number" && !isNaN(maybe);
@@ -54,7 +55,7 @@ export default class Store {
 
   @action.bound
   fetchData() {
-    const promise = fetch(dataURL, {
+    const promise = fetch(DATA_URI, {
       method: "GET"
     })
       .then(response => {
@@ -100,6 +101,7 @@ class Product {
       `Expects price, but got ${product.price}`
     );
     product.id = COUNTER++;
+    product.imageUrl = `${ASSET_BASE_URI}/${product.image}`
     return product;
   };
 
@@ -110,6 +112,7 @@ class Product {
   desc = null;
   measurement = null;
   image = null;
+  imageUrl = null;
 }
 
 class Filter {

@@ -44,15 +44,17 @@ class NavBar extends React.Component {
         </Link>
       );
     }
-    children.push(
-      <Link
-        key="to-cart"
-        to={toCart()}
-        className={`btn ${numCartItems ? "btn-danger" : "btn-primary"}`}
-      >
-        {numCartItems ? `${numCartItems} Items` : "Empty Cart"}
-      </Link>
-    );
+    if (location.pathname != toCart()) {
+      children.push(
+        <Link
+          key="to-cart"
+          to={toCart()}
+          className={`btn ${numCartItems ? "btn-danger" : "btn-primary"}`}
+        >
+          {numCartItems ? `${numCartItems} Items` : "Empty Cart"}
+        </Link>
+      );
+    }
     return (
       <NavBarContainer>
         <ResponsiveContainer>

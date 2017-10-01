@@ -47,7 +47,7 @@ export default class extends React.Component {
     return (
       <Container {...this.props}>
         <StyledLink to={toProductDetail(product.id)}>
-          <Image src={product.image} fluid />
+          <Image src={product.imageUrl} fluid />
           <p className="text-secondary">
             {product.name}
             <br />

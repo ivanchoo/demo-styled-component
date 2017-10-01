@@ -1,8 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const SRC_PREFIX = "/assets";
-
 export default class extends React.Component {
   static propTypes = {
     src: PropTypes.string,
@@ -19,7 +17,7 @@ export default class extends React.Component {
       return (
         <img
           {...restProps}
-          src={`${SRC_PREFIX}/${src}`}
+          src={src}
           className={`${className} ${fluid ? "img-fluid" : ""}`}
         />
       );
