@@ -1,23 +1,31 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
+import theme from "../styles/theme";
+import NavBar, { NAVBAR_HEIGHT } from "./NavBar";
+import ShopContainer from "./ShopContainer";
+import Container from "./components/Container";
 
 const PORTAL_MIN_WIDTH = 768; // small devices, landscape
 const USER_COLUMN_WIDTH = 280;
 
-const Container = styled.div`
-  background-color: gray;
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
+const ApplicationStyle = styled.div`
+  background-color: white;
+  display: flex;
+  justify-content: center;
 `;
 
 export default class App extends React.Component {
   render() {
     const { store } = this.props;
     return (
-      <Container>
-        <code>TODO</code>
-      </Container>
-
+      <ThemeProvider theme={theme}>
+        <ApplicationStyle>
+          <NavBar {...this.props} />
+          <Container style={{ marginTop: NAVBAR_HEIGHT }}>
+            <ShopContainer />
+          </Container>
+        </ApplicationStyle>
+      </ThemeProvider>
     );
   }
 }
