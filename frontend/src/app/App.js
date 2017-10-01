@@ -6,7 +6,7 @@ import NavBar, { NAVBAR_HEIGHT } from "./NavBar";
 import ProductsList from "./products/ProductsList";
 import ProductDetail from "./products/ProductDetail";
 import Cart from "./cart/Cart";
-import Container from "./components/Container";
+import ResponsiveContainer from "./components/ResponsiveContainer";
 import * as routes from "./routes";
 
 const PORTAL_MIN_WIDTH = 768; // small devices, landscape
@@ -26,7 +26,7 @@ export default class App extends React.Component {
         <ThemeProvider theme={theme}>
           <Style>
             <NavBar {...this.props} />
-            <Container style={{ marginTop: NAVBAR_HEIGHT }}>
+            <ResponsiveContainer style={{ marginTop: NAVBAR_HEIGHT }}>
               <Route
                 exact
                 path={routes.toProductList()}
@@ -38,7 +38,7 @@ export default class App extends React.Component {
                 component={ProductDetail}
               />
               <Route exact path={routes.toCart()} component={Cart} />
-            </Container>
+            </ResponsiveContainer>
           </Style>
         </ThemeProvider>
       </Router>

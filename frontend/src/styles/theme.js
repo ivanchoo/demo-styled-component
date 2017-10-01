@@ -5,6 +5,15 @@ const theme = {
     gray: "#adb5bd",
     light: "#e9ecef",
     dark: "#343a40"
+  },
+  grid: {
+    /* borrowing bootstrap grid sizes */
+    sizes: {
+      sm: 576,
+      md: 768,
+      lg: 992,
+      xl: 1200
+    }
   }
 };
 

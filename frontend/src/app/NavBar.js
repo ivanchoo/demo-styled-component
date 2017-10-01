@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { withRouter, Link } from "react-router-dom";
-import Container from "./components/Container";
+import InlineList from "./components/InlineList";
+import ResponsiveContainer from "./components/ResponsiveContainer";
 import { toCart, toProductList } from "./routes";
 
 export const NAVBAR_HEIGHT = 60;
 
-const NarBarStyle = styled.div`
+const NavBarWrapper = styled.div`
   background-color: ${props => props.theme.colors.light};
   min-height: ${NAVBAR_HEIGHT}px;
   display: flex;
@@ -18,24 +19,35 @@ const NarBarStyle = styled.div`
   left: 0;
 `;
 
-const ContainerStyle = Container.extend`
+const ResponsiveContainerExtended = ResponsiveContainer.extend`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 `;
 
 class NavBar extends React.Component {
   render() {
     const { store, location } = this.props;
-    const toProductListLink =
-      location.pathname == toProductList() ? null : (
-        <Link to={toProductList()}>Browser</Link>
+    const left = [],
+      right = [];
+    if (location.pathname != toProductList()) {
+      left.push(
+        <Link key="to-product-list" to={toProductList()}>
+          All Products
+        </Link>
       );
+    }
+    right.push(
+      <Link key="to-cart" to={toCart()}>
+        Cart
+      </Link>
+    );
     return (
-      <NarBarStyle>
-        <ContainerStyle>
-          {toProductListLink} <Link to={toCart()}>Cart</Link>
-        </ContainerStyle>
-      </NarBarStyle>
+      <NavBarWrapper>
+        <ResponsiveContainerExtended>
+          <InlineList style={{ margin: 0 }}>{left}</InlineList>
+          <InlineList style={{ margin: 0 }}>{right}</InlineList>
+        </ResponsiveContainerExtended>
+      </NavBarWrapper>
     );
   }
 }
