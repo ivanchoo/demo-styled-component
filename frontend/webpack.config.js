@@ -6,7 +6,7 @@ var isProduction = process.env.NODE_ENV === "production";
 
 var r = path.resolve;
 var BASE_DIR = r(__dirname);
-var BUILD_DIR = r(BASE_DIR, "build");
+var BUILD_DIR = r(BASE_DIR, "..", "build");
 var SRC_DIR = r(BASE_DIR, "src");
 var CONTENTBASE_DIR = r(BASE_DIR, "html");
 
