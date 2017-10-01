@@ -90,16 +90,11 @@ class Filter {
   @observable title = "";
 
   @computed
-  get labels() {
-    return this.options.map(this.formatLabel);
-  }
-
-  @computed
   get isSelected() {
     return !!this.selected.length;
   }
 
-  formatLabel(option) {
+  labelFor(option) {
     return option;
   }
 
@@ -129,6 +124,7 @@ class BrandFilter extends Filter {
   constructor(options) {
     super();
     this.title = "Brands";
+    this.options = options;
   }
 
   includes(product) {
@@ -136,6 +132,10 @@ class BrandFilter extends Filter {
     const value = product.brand;
     invariant(!!value, "Expects product.brand");
     return !!this.selected.find(option => option == value);
+  }
+
+  labelFor(option) {
+    return option;
   }
 }
 
@@ -152,8 +152,8 @@ class PriceFilter extends Filter {
     });
   }
 
-  formatLabel(option) {
-    return option.map(value => `$${value}`).join(" - ");
+  labelFor(option) {
+    return option.map(value => `$${value.toFixed(2)}`).join(" - ");
   }
 
   includes(product) {

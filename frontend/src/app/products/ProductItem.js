@@ -25,7 +25,6 @@ export default class extends React.Component {
   }
   render() {
     const { product, store, ...restProps } = this.props;
-    console.log(product)
     return (
       <Container {...this.props}>
         <div style={{ flex: 1 }}>
