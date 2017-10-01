@@ -2,7 +2,7 @@ import React from "react";
 import styled, { ThemeProvider } from "styled-components";
 import theme from "../styles/theme";
 import NavBar, { NAVBAR_HEIGHT } from "./NavBar";
-import ShopContainer from "./ShopContainer";
+import ProductsList from "./products/ProductsList";
 import Container from "./components/Container";
 
 const PORTAL_MIN_WIDTH = 768; // small devices, landscape
@@ -22,7 +22,7 @@ export default class App extends React.Component {
         <ApplicationStyle>
           <NavBar {...this.props} />
           <Container style={{ marginTop: NAVBAR_HEIGHT }}>
-            <ShopContainer />
+            <ProductsList />
           </Container>
         </ApplicationStyle>
       </ThemeProvider>
