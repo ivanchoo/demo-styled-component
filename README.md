@@ -4,7 +4,7 @@ A simple shopping cart application build with React ⚛ + MobX ♏ + Styled Comp
 
 ### Instructions
 
-The easiest way to run this project is to start it locally using Docker.
+Run the development environment locally using Docker.
 
 Install and start Docker via command line.
 
@@ -73,9 +73,9 @@ This project uses [Bootstrap](https://github.com/twbs/bootstrap) to provide a de
 
 It will leverage [Styled Components](https://github.com/styled-components/styled-components) to manage Component related styles (3) and layout implementations (4). (It intentionally avoids using Bootstraps `col-*` grid system but uses CSS `flexbox` to implement most of the layouts.)
 
-Styled Components are CSS that compiles to a High Order Component (HOC, wrapping component) in React. It allows us to write CSS classes in React components, must like how React lets use write HTML tags in JSX.
+Styled Components are CSS that compiles to a High Order Component (HOC, wrapping component) in React. It allows us to write CSS classes in React components, much like how React lets use write HTML tags in JSX.
 
-```
+```JSX
 import React from "react"
 import styled from "styled-components"
 
