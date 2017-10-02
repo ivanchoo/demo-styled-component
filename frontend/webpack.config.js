@@ -10,6 +10,9 @@ var BUILD_DIR = r(BASE_DIR, "..", "build");
 var SRC_DIR = r(BASE_DIR, "src");
 var CONTENTBASE_DIR = r(BASE_DIR, "html");
 
+// See .env
+var PUBLIC_BASE = process.env.PUBLIC_BASE || "/";
+
 var entrypoint = function(source) {
   if (isProduction) {
     return source;
@@ -31,7 +34,7 @@ module.exports = {
   },
   output: {
     path: BUILD_DIR,
-    publicPath: "/lib/",
+    publicPath: PUBLIC_BASE + "lib/",
     filename: "[name].bundle.js",
     library: "[name]",
     libraryTarget: "var"
@@ -58,8 +61,9 @@ module.exports = {
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
       "process.env": {
-        NODE_ENV: JSON.stringify(isProduction ? "production" : "development")
-      }
+        NODE_ENV: JSON.stringify(isProduction ? "production" : "development"),
+        PUBLIC_BASE: JSON.stringify(PUBLIC_BASE)
+      },
     })
   ],
   module: {

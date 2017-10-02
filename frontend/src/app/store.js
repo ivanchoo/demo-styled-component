@@ -1,8 +1,9 @@
 import { observable, action, useStrict, computed, runInAction } from "mobx";
+import { toBaseURI } from "./routes";
 import invariant from "invariant";
 
-const DATA_URI = "/data/products.json";
-const ASSET_BASE_URI = "/assets";
+const DATA_URI = toBaseURI("data/products.json");
+const ASSET_BASE_URI = toBaseURI("assets");
 
 const isNumber = maybe => {
   return typeof maybe == "number" && !isNaN(maybe);
@@ -101,7 +102,7 @@ class Product {
       `Expects price, but got ${product.price}`
     );
     product.id = COUNTER++;
-    product.imageUrl = `${ASSET_BASE_URI}/${product.image}`
+    product.imageUrl = `${ASSET_BASE_URI}/${product.image}`;
     return product;
   };
 

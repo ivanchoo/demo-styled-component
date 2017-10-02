@@ -14,7 +14,7 @@ fi
 
 cp -R $HTML_DIR/* $DIST_DIR
 
-docker-compose run --rm -e NODE_ENV=production frontend webpack -p
+docker-compose run --rm -e NODE_ENV=production -e PUBLIC_BASE=/demo-styled-component/ frontend webpack -p
 
 mkdir $DIST_DIR/lib
 
