@@ -2,6 +2,8 @@
 
 A simple shopping cart application build with React ⚛ + MobX ♏ + Styled Component 💅 .
 
+--------
+
 ### Instructions
 
 Run the development environment locally using Docker.
@@ -62,7 +64,7 @@ This problem is even more pronounce when multiple developers contribute to the c
 
 While CSS Modules attempt to bring some sanity to building component based UI, it only provides a way to localise style definitions but does not address the issue of maintainability.
 
-### Implementation
+### Execution
 
 CSS in a fairly large application can be categorised into the following:
 
@@ -75,7 +77,7 @@ This project uses [Bootstrap](https://github.com/twbs/bootstrap) to provide a de
 
 It will leverage [Styled Components](https://github.com/styled-components/styled-components) to manage Component related styles (3) and layout implementations (4). (It intentionally avoids using Bootstraps `col-*` grid system but uses CSS `flexbox` to implement most of the layouts.)
 
-Styled Components are CSS that compiles to a High Order Component (HOC, wrapping component) in React. It allows us to write CSS classes in React components, much like how React lets use write HTML tags in JSX.
+Styled Components are CSS that compiles to a visual primitives (e.g. `div`, `p`) in React. It allows us to write CSS classes in React components, much like how React lets use write HTML tags in JSX.
 
 ```JSX
 import React from "react"
